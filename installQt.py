@@ -102,9 +102,11 @@ def start_install_of_qt(args):
 
     #Create shadow build directory. We will be using /home/pi/build by default.
     if not os.path.exists(args.buildpath):
+        print("creating build folder ...")
         os.makedirs(args.buildpath)
         #os.chmod(args.buildpath, 0o777)
-        shutil.chown(args.buildpath, user=pi, group=pi)
+        print("set user and group to pi")
+        shutil.chown(args.buildpath, user="pi", group="pi")
     os.chdir(args.buildpath)
 
     #configure the build
@@ -144,13 +146,13 @@ def start_install_of_qt(args):
     path = "/usr/local/qt5pi"
     print("setup pi for cross compilation")
     os.makedirs(path)
-    os.chmod(path, 0o777)
-    shutil.chown(path, user=pi, group=pi)
+    #os.chmod(path, 0o777)
+    shutil.chown(path, user="pi", group="pi")
     for root, dirs, files in os.walk(path):
         for momo in dirs:
-            shutil.chown(os.path.join(root,momo), user=pi, group=pi)
+            shutil.chown(os.path.join(root,momo), user="pi", group="pi")
         for momo in files:
-            shutil.chown(os.path.join(root,momo), user=pi, group=pi)
+            shutil.chown(os.path.join(root,momo), user="pi", group="pi")
 
 
     
