@@ -1,0 +1,192 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.20 of 2017/10/04
+%
+\documentclass[runningheads]{llncs}
+    %
+    \usepackage{graphicx}
+    \usepackage[utf8]{inputenc}
+    \usepackage{listings}
+    \usepackage{xcolor}
+    \authorrunning{Daniel Scholtyssek}
+    
+    \setlength\parindent{0pt}
+    % Used for displaying a sample figure. If possible, figure files should
+    % be included in EPS format.
+    %
+    % If you use the hyperref package, please uncomment the following line
+    % to display URLs in blue roman font according to Springer's eBook style:
+    % \renewcommand\UrlFont{\color{blue}\rmfamily}
+    
+    \begin{document}
+    %
+    \title{Embedded Multimedia \\ Building Qt 5.10.1 with Python Skript}
+    %
+    %\titlerunning{Abbreviated paper title}
+    % If the paper title is too long for the running head, you can set
+    % an abbreviated paper title here
+    %
+    \author{Gruppe 6 \\ Daniel Scholtyssek \\ Mat-Nr: 133750 \\\email{daniel.scholtyssek@tu-dortmund.de}}
+    %
+    % First names are abbreviated in the running head.
+    % If there are more than two authors, 'et al.' is used.
+    %
+    \institute{TU Dortmund, Fakultät für Informatik}
+    %
+    \maketitle              % typeset the header of the contribution
+    %
+    \begin{abstract}
+    Dieses Paper soll einen kurzen Überblick über die Verwendung eines Python Skript geben, mit dem es Möglich ist, seinen Raspberry Pi mit Qt5.10.1 auszustatten. Als Hilfsmittel würden \cite{ref1} und \cite{ref2} verwendet. Sinn und Zweck des Skripts ist es den Installationsprozess (vor allem auf privaten Raspberry Pi's) zu vereinfachen und damit den Teilnehmern der Vorlesung \emph{Embedded Multimedia} Arbeit abzunehmen. 
+    \end{abstract}
+    %
+    %
+    %
+    \color{red}
+    \section{Noch nicht 100-prozentig lauffähig}
+    Aktuell noch Probleme mit dem \emph{configure} Teil und dem Build. Bekomme immer EGLFS Rasberry Pi .................... no. Außerdem noch viele offenen Fragen, siehe Abschnitt~\ref{sec:fragen}.
+    \color{black}
+    \section{Voraussetzungen}
+    Aufgrund der Komplexität der automatischen Installation von Software, trifft das Skript einige Annahmen, um den Prozess zu vereinfachen.
+    \begin{enumerate}
+        \item Es wird die aktuellste Version des \emph{NOOBS} Raspbian Betriebssystems verwendet. 
+        \item Dabei werden keine Anpassungen am Benutzer ("pi") oder am Root Passwort gemacht.
+        \item Außerdem ist genügend Festplattenspeicher verfügbar, um die benötigte Software zu installieren. 
+    \end{enumerate}
+    
+    \section{Download}
+Neben dem Download aus dem \emph{Embedded Multimedia} Moodle Raum, ist auch ein direkter Download von meiner GitHub Seite\footnote{https://github.com/RuUnation/EMM2018} möglich. Dazu muss nur ein Terminal geöffnet und folgende Befehle eingegeben werden: 
+    \newline
+    \begin{lstlisting}[frame=single,caption={Befehl für das Klonen des Repository},label=github, backgroundcolor=\color{lightgray},  basicstyle=\ttfamily\color{black}]
+   $ cd /home/pi/
+   $ git clone https://github.com/RuUnation/EMM2018.git
+   $ cd EMM2018/
+   $ chmod +x installQt.py
+    \end{lstlisting}
+    
+    
+    Mit dieser Reihe von Befehlen würde das Skript heruntergeladen und ausführbar gemacht.
+
+    \section{Ausführung und mögliche Optionen}
+	Es handelt sich um ein \emph{Python3} Skript, welches nun ausgeführt werden kann. Wichtig ist, dass das Skript mit dem \emph{Sudo} Befehl gestartet wird.
+    
+        \begin{lstlisting}[frame=single,caption={Hilfstext des Skripts},label=skripth, backgroundcolor=\color{lightgray},  basicstyle=\ttfamily\color{black},breaklines=true]
+   $ sudo ./installQt.py -h
+   ---------------------------------------------------
+   usage: installQt.py [-h] [-d DOWNLOADPATH] 
+          [-b BUILDPATH] [-j {1,2,3,4}] [-p PLATFORM] 
+          [-a] [--bluetooth] [--audio] [--database]
+          [--print] [--wayland] [--accessibility]
+          [--distupgrade] [--rpiupdate]
+
+  optional arguments:
+    -h, --help            show this help message and 
+                          exit
+                          
+    -d DOWNLOADPATH, --downloadpath DOWNLOADPATH
+                          downloadpath for the 
+                          qt5.10.1 source. Default is home/pi/Downloads.
+                          
+    -b BUILDPATH, --buildpath BUILDPATH
+                          shadow build directory.
+                          Default is home/pi/build
+                          
+    -j {1,2,3,4}, --jobs {1,2,3,4}
+                          number of jobs for make 
+                          (j4 in the doc)
+                          
+    -p PLATFORM, --platform PLATFORM
+                          which platform, default
+                          is linux-rasp-pi3-g++.
+                          Other Platforms are: 
+                          linux-rasp-pi-g++, 
+                          linux-rasp-pi2-g++
+                          and linux-rasp-pi3-vc4-g++
+                          
+    -a, --all             install all optional 
+                          development packages 
+                          
+                          
+    --bluetooth           install optional development 
+                          packages for bluetooth
+                          
+    --audio               install optional development 
+                          packages for audio
+                          
+    --database            install optional development
+                          packages for databases
+                          
+    --print               install optional development 
+                          packages for printing
+                          
+    --wayland             install optional development 
+                          packages for wayland
+                          support
+                          
+    --accessibility       install optional development
+                          packages for accessibility
+                          
+    --distupgrade         edits sources.list and 
+                          performes dist-upgrade
+                        
+    --rpiupdate           updates the pi's firmware
+    
+
+    \end{lstlisting}
+	
+    
+    Mit dem Argument \emph{-h} wird der Hilfstext ausgegeben. Hier wird gezeigt, wie das Skript zu benutzen ist und welche Argumente angegeben werden können. Alle Argumente sind optional und müssen nicht angegeben werden. Damit ein reibungsloser Ablauf gewährleistet werden kann, muss das Skript dreimal aufgerufen werden. Dies ist nötig, da einige Dinge installiert und durchgeführt werden, die einen Neustart benötigen. Folgende Aufrufe müssen in dieser Reihenfolge getätigt werden:  
+    
+    \begin{lstlisting}[frame=single,caption={Befehlsreihenfolge},label=sckiptrun, backgroundcolor=\color{lightgray},  basicstyle=\ttfamily\color{black}]
+   $ sudo ./installQt.py --distupgrade
+   --------------  reboot -------------
+   $ sudo ./installQt.py --rpiupgrade
+   --------------- reboot -------------
+   $ sudo ./installQt.py --all --jobs=2
+   ----------------reboot -------------
+    \end{lstlisting}
+    
+    Mit den Optionen im dritten Druchlauf werden alle optionalen Development Packages installiert (siehe \cite{ref2}) und die Anzahl von Jobs beim \emph{Make} Vorgang auf zwei gesetzt. Der Versuch \emph{--jobs} auf 3 oder sogar 4 zu stellen (-j3 bzw. -j4), haben einen Raspberry pi 3 ohne aktive Kühlung, immer in den Bereich des \emph{thermal throttling} gebracht (ca. 80$^\circ$+). Mit \emph{--jobs=2} ist er immer relativ stabil bei 72$^\circ$ geblieben.\newline\newline \color{red}\textbf{ACHTUNG: Der ganze Vorgang kann einige Stunden dauern.}\color{black}
+    \newline
+    \newline
+    Das Herunterladen der \emph{qt-everywhere-src} kann verhindert werden. Das Skript geprüft, ob das Archive evtl. schon vorhanden ist, 
+    wodurch es möglich ist, diesen Schritt des herrunderladens der Software zu überspringen, beispielsweise wenn man das Archive schon auf einem USB Stick hat. Dann muss nur Mittels \emph{-d} oder \emph{--downloadpath} dieser Ordner angegeben werden, oder das Archive in den Standardpfad \emph{/home/pi/Downloads} kopiert werden.\newline
+    Falls der Build-Vorgang ausversehen abgebrochen wird, kann das Skript einfach wieder gestartet werden. Die bissher gebauten Sachen gehen nicht verloren. 
+    
+    
+    \section{Offene Fragen/mögliche Fehler der Anleitung}
+    \label{sec:fragen}
+    
+    \begin{itemize}
+    \item Welche Version von Raspbian soll genommen werden? Veilleicht geht es bei mir nicht wegen der falschen Betriebssystemversion. Aktuell verwende ich \emph{Raspbian Stretch with desktop}
+    \item Fehler in der angepassten Doku im Moodle. Im \emph{Configure the build} Teil sind einige Fehler drin, welche im Original (siehe \cite{ref1}) nicht drin sind. Es wird z.B. noch von \emph{"qt-everywhere-opensource-src-5.10.0"} gesprochen, obwohl es in der neuen Version \emph{"qt-everywhere-src-5.10.1"} heißt.
+    \item \emph{"PKG\_CONFIG\_SYSROOT\_DIR=..\/qt-everywhere-opensource-src-5.10.0\/"} ist nicht korrekt und wird auch in der Original Doku anders gesetzt. Was soll man jetzt hier machen.  
+    \item In der Qt eignen Doku zur Installation
+    \item Das Package \emph{libatspi-dev} ist in der aktuellen Debian Raspbian Version nicht mehr in den Respositories zu finden. Optionales Feature Accessibility.
+    \item Warum wird in der Moodle Dokumentation die Optionen \emph{-system-freetype}, \emph{-fontconfig} und \emph{-glib} nicht gesetzt?
+    \item In der Anleitung wird für \emph{linux-rasp-pi2-g++} gebaut, obwohl wir Pi's der dritten Version bekommen haben. Gibt es da einen Grund?
+    \item In der Anleitung steht \emph{"The module qtscript is deprecated, but required for Qt Creator. Therefore it has to be built as well: sudo make"}. Ohne zu sagen, wo genau, was genau, gebaut werden soll. Hier muss möglicherweise noch das Skript angepasst werden. Aktuell wird einfach in den Unterordner \emph{qtscript} navigiert und \emph{make} aufgerufen. Im Skript wird außerdem noch die Erweiterung gemacht, dass QtCreator aus dem Repository installiert wird. 
+    \item Selbst Leute in den Kommentaren der Original Anleitung sagen, dass sie immer \emph{ EGLFS Rasberry Pi .................... no} bekommen.
+    \item Warum chmod a+rwx (nicht rekursiv, nur auf Ordner) anstatt wie in anderen Tutorials \emph{sudo chown -R pi:pi /usr/local/qt5pi}.
+    
+    
+    \end{itemize}
+    
+    %
+    % ---- Bibliography ----
+    %
+    % BibTeX users should specify bibliography style 'splncs04'.
+    % References will then be sorted and formatted in the correct style.
+    %
+    % \bibliographystyle{splncs04}
+    % \bibliography{mybibliography}
+    %
+    \begin{thebibliography}{8}
+    \bibitem{ref1}
+    http://www.tal.org/tutorials/building-qt-510-raspberry-pi-debian-stretch
+	
+    \bibitem{ref2}
+	\url{Anleitung aus dem moodle Raum "Qt 5.10.1 auf dem Raspberry Pi 3 compilieren"}
+    
+    \end{thebibliography}
+    \end{document}
+    
