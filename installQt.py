@@ -153,6 +153,7 @@ def start_install_of_qt(args):
             shutil.chown(os.path.join(root,momo), user="pi", group="pi")
         for momo in files:
             shutil.chown(os.path.join(root,momo), user="pi", group="pi")
+    os.chmod(path,0o777)
 
 
     
