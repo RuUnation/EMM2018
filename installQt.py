@@ -128,10 +128,12 @@ def start_install_of_qt(args):
     subprocess.call(["make"])
     
     print("move qtscript stuff to opt/Qt5.10.1 Folder")
-    os.chdir(args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript/lib")
-    subprocess.call(["cp", "-av", ".", "/opt/Qt5.10.1/lib"])
-    os.chdir(args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript/include")
-    subprocess.call(["cp", "-av", ".", "/opt/Qt5.10.1/include"])
+    if os.path.isdir(args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript/lib"):
+        os.chdir(args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript/lib")
+        subprocess.call(["cp", "-av", ".", "/opt/Qt5.10.1/lib"])
+    if os.path.isdir(args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript/include"):
+        os.chdir(args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript/include")
+        subprocess.call(["cp", "-av", ".", "/opt/Qt5.10.1/include"])
 
     #add to PATH
     print("add qmake to PATH")
