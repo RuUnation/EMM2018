@@ -28,3 +28,24 @@ Traceback (most recent call last):
   File "./installQt.py", line 131, in start_install_of_qt
     os.chdir(args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript/lib")
 FileNotFoundError: [Errno 2] No such file or directory: '/home/pi/Downloads/qt-everywhere-src-5.10.1/qtscript/lib'
+
+
+install dependencies for cross compilation
+Paketlisten werden gelesen... Fertig
+Abhängigkeitsbaum wird aufgebaut.       
+Statusinformationen werden eingelesen.... Fertig
+E: Paket build-dep kann nicht gefunden werden.
+E: Paket qt4-x11 kann nicht gefunden werden.
+Paketlisten werden gelesen... Fertig
+Abhängigkeitsbaum wird aufgebaut.       
+Statusinformationen werden eingelesen.... Fertig
+E: Paket build-dep kann nicht gefunden werden.
+Paketlisten werden gelesen... Fertig
+Abhängigkeitsbaum wird aufgebaut.       
+Statusinformationen werden eingelesen.... Fertig
+libinput-dev ist schon die neueste Version (1.6.3-1).
+libts-dev ist schon die neueste Version (1.0-12).
+libudev-dev ist schon die neueste Version (232-25+deb9u2).
+libxcb-xinerama0 ist schon die neueste Version (1.12-1).
+libxcb-xinerama0-dev ist schon die neueste Version (1.12-1).
+0 aktualisiert, 0 neu installiert, 0 zu entfernen und 0 nicht aktualisiert.

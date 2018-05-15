@@ -113,7 +113,7 @@ def start_install_of_qt(args):
     print("building qt now ...")
     print("make will start "+ str(args.jobs) + "jobs")
     os.environ['PKG_CONFIG_LIBDIR'] = "/usr/lib/arm-linux-gnueabihf/pkgconfig"
-    os.environ['PKG_CONFIG_SYSROOT_DIR'] = "/"
+    os.environ['PKG_CONFIG_SYSROOT_DIR'] = args.downloadpath+"/qt-everywhere-src-5.10.1/"
     
     subprocess.call([args.downloadpath+"/qt-everywhere-src-5.10.1/configure", "-v", "-opengl", "es2", "-eglfs", "-no-gtk", "-qt-xcb", "-device", args.platform, "-device-option", "CROSS_COMPILE=/usr/bin/", "-opensource", "-confirm-license", "-release", "-reduce-exports", "-nomake", "examples", "-no-compile-examples", "-skip", "qtwayland", "-skip", "qtwebengine", "-no-feature-geoservices_mapboxgl", "-qt-pcre", "-ssl", "-evdev", "-prefix", "/opt/Qt5.10.1"])
     print("make process will now be started ...")
