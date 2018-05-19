@@ -8,7 +8,7 @@ import shutil
 
 DEFAULT_DOWNLOAD_PATH = "/home/pi/Downloads"
 DEFAULT_BUILD_PATH = "/home/pi/build"
-DEFAULT_PLATFORM = "linux-rasp-pi3-g++"
+DEFAULT_PLATFORM = "linux-rasp-pi2-g++"
 
 
 def init_args_parser():
@@ -16,7 +16,7 @@ def init_args_parser():
     parser.add_argument("-d","--downloadpath", help="downloadpath for the qt5.10.1 source. Default is home/pi/Downloads.", type=str, default=DEFAULT_DOWNLOAD_PATH)
     parser.add_argument("-b","--buildpath", help="shadow build directory. Default is home/pi/build", type=str, default=DEFAULT_BUILD_PATH)
     parser.add_argument("-j","--jobs", help="number of jobs for make (j4 in the doc)", type=int, choices=range(1,5), default=1)
-    parser.add_argument("-p", "--platform", help="which platform, default is linux-rasp-pi3-g++. \n Other Platforms are:  linux-rasp-pi-g++, linux-rasp-pi2-g++ and linux-rasp-pi3-vc4-g++", type=str, default=DEFAULT_PLATFORM)
+    parser.add_argument("-p", "--platform", help="which platform, default is linux-rasp-pi2-g++. \n Other Platforms are:  linux-rasp-pi-g++, linux-rasp-pi3-g++ and linux-rasp-pi3-vc4-g++", type=str, default=DEFAULT_PLATFORM)
     parser.add_argument("-a", "--all", help="install all optional development packages (Bluetooth, Audio and gstreamer, ...)", action='store_true')
     parser.add_argument("--bluetooth", help="install optional development packages for bluetooth", action='store_true')
     parser.add_argument("--audio", help="install optional development packages for audio", action='store_true')
@@ -32,11 +32,13 @@ def init_args_parser():
 
 def start_install_dependencies(args):
     
-     #install build dependencies
+     #install build dependencies and cmake
     print("install build dependencies ...")
     subprocess.call(["apt-get", "update"])
     subprocess.call(["apt-get", "install", "-y", "libx11-dev", "libxext-dev", "libxfixes-dev", "libxrender-dev", "libxcb1-dev", "libx11-xcb-dev", "libxcb-glx0-dev", "build-essential", "libfontconfig1-dev", "libdbus-1-dev", "libfreetype6-dev", "libicu-dev", "libinput-dev", "libxkbcommon-dev", "libsqlite3-dev", "libssl-dev", "libpng-dev", "libjpeg-dev", "libglib2.0-dev", "libraspberrypi-dev"])
+    subprocess.call(["apt-get", "install", "-y", "cmake", "cmake-qt-gui"])
 
+    
     #install optional development packages
     if(args.all):
         print("Installing all optional development packages")
@@ -124,8 +126,9 @@ def start_install_of_qt(args):
 
     subprocess.call(["make", "install"])
     
+
     os.chdir(args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript")
-    subprocess.call(["make"])
+    subprocess.call(["make", "-C" , args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript"])
     
     print("move qtscript stuff to opt/Qt5.10.1 Folder")
     if os.path.isdir(args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript/lib"):
