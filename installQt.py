@@ -37,7 +37,6 @@ def start_install_dependencies(args):
     subprocess.call(["apt-get", "update"])
     subprocess.call(["apt-get", "install", "-y", "libx11-dev", "libxext-dev", "libxfixes-dev", "libxrender-dev", "libxcb1-dev", "libx11-xcb-dev", "libxcb-glx0-dev", "build-essential", "libfontconfig1-dev", "libdbus-1-dev", "libfreetype6-dev", "libicu-dev", "libinput-dev", "libxkbcommon-dev", "libsqlite3-dev", "libssl-dev", "libpng-dev", "libjpeg-dev", "libglib2.0-dev", "libraspberrypi-dev"])
     subprocess.call(["apt-get", "install", "-y", "cmake", "cmake-qt-gui"])
-    subprocess.call(["apt-get", "install", "-y", "freetype2-demos"])
 
     
     #install optional development packages
@@ -118,7 +117,7 @@ def start_install_of_qt(args):
     os.environ['PKG_CONFIG_LIBDIR'] = "/usr/lib/arm-linux-gnueabihf/pkgconfig"
     os.environ['PKG_CONFIG_SYSROOT_DIR'] = args.downloadpath+"/qt-everywhere-src-5.10.1/"
     
-    subprocess.call([args.downloadpath+"/qt-everywhere-src-5.10.1/configure", "-v", "-opengl", "es2", "-eglfs", "-no-gtk", "-qt-xcb", "-device", args.platform, "-device-option", "CROSS_COMPILE=/usr/bin/", "-opensource", "-confirm-license", "-release", "-reduce-exports", "-nomake", "examples", "-no-compile-examples", "-skip", "qtwayland", "-skip", "qtwebengine", "-no-feature-geoservices_mapboxgl", "-qt-pcre", "-ssl", "-evdev", "-qt-freetype", "-fontconfig","-glib", "-prefix", "/opt/Qt5.10.1"])
+    subprocess.call([args.downloadpath+"/qt-everywhere-src-5.10.1/configure", "-v", "-opengl", "es2", "-eglfs", "-no-gtk", "-qt-xcb", "-device", args.platform, "-device-option", "CROSS_COMPILE=/usr/bin/", "-opensource", "-confirm-license", "-release", "-reduce-exports", "-nomake", "examples", "-no-compile-examples", "-skip", "qtwayland", "-skip", "qtwebengine", "-no-feature-geoservices_mapboxgl", "-qt-pcre", "-ssl", "-evdev", "-qt-freetype", "-prefix", "/opt/Qt5.10.1"])
     print("make process will now be started ...")
     if(args.platform == DEFAULT_PLATFORM) or (args.platform == "linux-rasp-pi3-vc4-g++") or (args.platform == "linux-rasp-pi2-g++"):
         subprocess.call(["make", "--jobs="+str(args.jobs)])
@@ -151,7 +150,7 @@ def start_install_of_qt(args):
     #setup pi for cross compilation
     path = "/usr/local/qt5pi"
     print("setup pi for cross compilation")
-    if os.path.isdir(path):
+    if not os.path.isdir(path):
         os.makedirs(path)
         #os.chmod(path, 0o777)
         shutil.chown(path, user="pi", group="pi")
