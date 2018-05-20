@@ -117,7 +117,7 @@ def start_install_of_qt(args):
     os.environ['PKG_CONFIG_LIBDIR'] = "/usr/lib/arm-linux-gnueabihf/pkgconfig"
     os.environ['PKG_CONFIG_SYSROOT_DIR'] = args.downloadpath+"/qt-everywhere-src-5.10.1/"
     
-    subprocess.call([args.downloadpath+"/qt-everywhere-src-5.10.1/configure", "-v", "-opengl", "es2", "-eglfs", "-no-gtk", "-qt-xcb", "-device", args.platform, "-device-option", "CROSS_COMPILE=/usr/bin/", "-opensource", "-confirm-license", "-release", "-reduce-exports", "-nomake", "examples", "-no-compile-examples", "-skip", "qtwayland", "-skip", "qtwebengine", "-no-feature-geoservices_mapboxgl", "-qt-pcre", "-ssl", "-evdev", "-prefix", "/opt/Qt5.10.1"])
+    subprocess.call([args.downloadpath+"/qt-everywhere-src-5.10.1/configure", "-v", "-opengl", "es2", "-eglfs", "-no-gtk", "-qt-xcb", "-device", args.platform, "-device-option", "CROSS_COMPILE=/usr/bin/", "-opensource", "-confirm-license", "-release", "-reduce-exports", "-nomake", "examples", "-no-compile-examples", "-skip", "qtwayland", "-skip", "qtwebengine", "-no-feature-geoservices_mapboxgl", "-qt-pcre", "-ssl", "-evdev", "-qt-freetype", "-fontconfig","-glib", "-prefix", "/opt/Qt5.10.1"])
     print("make process will now be started ...")
     if(args.platform == DEFAULT_PLATFORM) or (args.platform == "linux-rasp-pi3-vc4-g++") or (args.platform == "linux-rasp-pi2-g++"):
         subprocess.call(["make", "--jobs="+str(args.jobs)])
@@ -150,15 +150,16 @@ def start_install_of_qt(args):
     #setup pi for cross compilation
     path = "/usr/local/qt5pi"
     print("setup pi for cross compilation")
-    os.makedirs(path)
-    #os.chmod(path, 0o777)
-    shutil.chown(path, user="pi", group="pi")
-    for root, dirs, files in os.walk(path):
-        for momo in dirs:
-            shutil.chown(os.path.join(root,momo), user="pi", group="pi")
-        for momo in files:
-            shutil.chown(os.path.join(root,momo), user="pi", group="pi")
-    os.chmod(path,0o777)
+    if os.path.isdir(path):
+        os.makedirs(path)
+        #os.chmod(path, 0o777)
+        shutil.chown(path, user="pi", group="pi")
+        for root, dirs, files in os.walk(path):
+            for momo in dirs:
+                shutil.chown(os.path.join(root,momo), user="pi", group="pi")
+            for momo in files:
+                shutil.chown(os.path.join(root,momo), user="pi", group="pi")
+        os.chmod(path,0o777)
 
 
     
