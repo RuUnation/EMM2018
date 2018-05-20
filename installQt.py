@@ -37,6 +37,7 @@ def start_install_dependencies(args):
     subprocess.call(["apt-get", "update"])
     subprocess.call(["apt-get", "install", "-y", "libx11-dev", "libxext-dev", "libxfixes-dev", "libxrender-dev", "libxcb1-dev", "libx11-xcb-dev", "libxcb-glx0-dev", "build-essential", "libfontconfig1-dev", "libdbus-1-dev", "libfreetype6-dev", "libicu-dev", "libinput-dev", "libxkbcommon-dev", "libsqlite3-dev", "libssl-dev", "libpng-dev", "libjpeg-dev", "libglib2.0-dev", "libraspberrypi-dev"])
     subprocess.call(["apt-get", "install", "-y", "cmake", "cmake-qt-gui"])
+    subprocess.call(["apt-get", "install", "-y", "freetype2-demos"])
 
     
     #install optional development packages
