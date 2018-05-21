@@ -138,6 +138,19 @@ def start_install_of_qt(args):
         os.chdir(args.downloadpath+"/qt-everywhere-src-5.10.1/qtscript/include")
         subprocess.call(["cp", "-av", ".", "/opt/Qt5.10.1/include"])
 
+    print("move fonts to qt5.10.1 Folder")
+    font_src = "/usr/share/fonts"
+    font_dest = "/opt/Qt5.10.1/lib/fonts"
+    if not os.path.isdir(font_dest):
+        os.makedirs(font_dest)
+    for root, dirs, files in os.walk(font_src):
+        for file in files:
+            if os.path.isfile(font_dest + "/" + file):
+                print("file already exists")
+            else:
+                path_file = os.path.join(root,file)
+                shutil.copy2(path_file,font_dest)
+
     #add to PATH
     print("add qmake to PATH")
     with open('/home/pi/.bashrc', 'a') as file:
